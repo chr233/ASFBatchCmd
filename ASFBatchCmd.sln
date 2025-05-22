@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASFBatchCmd", "ASFBatchCmd\ASFBatchCmd.csproj", "{288F0188-D922-4E44-B600-4898C16583EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchiSteamFarm", "ArchiSteamFarm\ArchiSteamFarm\ArchiSteamFarm.csproj", "{1C9DF7E0-5804-4811-8D54-253F0EAB825C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{9FA3D6BD-1EC1-3BA5-80CB-CE02773A58D5}"
+	ProjectSection(SolutionItems) = preProject
+		build.ps1 = build.ps1
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{288F0188-D922-4E44-B600-4898C16583EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{288F0188-D922-4E44-B600-4898C16583EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{288F0188-D922-4E44-B600-4898C16583EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{288F0188-D922-4E44-B600-4898C16583EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C9DF7E0-5804-4811-8D54-253F0EAB825C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C9DF7E0-5804-4811-8D54-253F0EAB825C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C9DF7E0-5804-4811-8D54-253F0EAB825C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C9DF7E0-5804-4811-8D54-253F0EAB825C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC976FED-7485-478E-BB7A-6251112CA8CE}
+	EndGlobalSection
+EndGlobal
