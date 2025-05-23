@@ -51,15 +51,45 @@
    - 如果需要将参数设置为可以重复使用, 并且随机分配, 可以使用 `BATCMDRU` 或者 `BATCMDUR`
 
 3. `BATCMD` 示例用法
+
    - 比如需要批量执行 `NICKNAME bot name`, 这条命令, 其中每个机器人分配一个不一样的 name
    - 首先需要设置机器人范围, 使用 `BATRANGE ASF`, 将执行范围设定为全部机器人, 也可以手动编辑 `BotRange.txt` 文件
    - 然后需要设置参数列表, 使用 `BATARGS 昵称1 昵称2 昵称3`, 配置预定义的昵称列表, 也可以手动编辑 `Argument.txt` 文件
    - 最后将命令改写为命令模板, 使用 `$B` `$A` 替换对应的机器人和参数, 比如 `NICKNAME $B $A`
    - 然后根据具体情况选择批量执行的模式
+
      - `BATCMD NICKNAME $B $A`, 参数按顺序分配, 每个参数只会使用一次, 如果参数数量小于机器人数量, 未分配到的机器人不会执行命令
      - `BATCMDR NICKNAME $B $A`, 参数随机分配, 每个参数只会使用一次
      - `BATCMDU NICKNAME $B $A`, 参数按顺序分配, 重复使用参数直到每个机器人都分配到参数
      - `BATCMDRU NICKNAME $B $A`, 参数随机分配, 重复使用参数
-     - `BATCMDUR NICKNAME $B $A`, 参数随机分配, 重复使用参数
+     - `BATCMDUR NICKNAME $B $A`, 同上
+
+   - 执行举例, 比如设置了 5 个机器人 `A B C D E` 还有 3 个参数 `name1 name2 name3`，命令模板为 `NICKNAME $B $A`
+
+     - `BATCMD NICKNAME $B $A` 默认模式, 参数按顺序分配, 参数分配完就停止运行
+
+       - NICKNAME A name1
+       - NICKNAME B name2
+       - NICKNAME C name3
+
+     - `BATCMDR NICKNAME $B $A` 随机模式, 参数打乱后分配, 参数分配完就停止运行
+
+       - NICKNAME A name3
+       - NICKNAME B name1
+       - NICKNAME C name2
+
+     - `BATCMDU NICKNAME $B $A` 参数顺序分配, 可以被重复使用
+       - NICKNAME A name1
+       - NICKNAME B name2
+       - NICKNAME C name3 //参数分配完成, 开启第二轮分配
+       - NICKNAME D name1
+       - NICKNAME E name2
+
+     - `BATCMDRU NICKNAME $B $A` 参数打乱后分配, 可以被重复使用
+       - NICKNAME A name3
+       - NICKNAME B name1
+       - NICKNAME C name2 //参数分配完成, 开启第二轮分配, 每轮会重新打乱一次
+       - NICKNAME D name2
+       - NICKNAME E name1
 
    - 如果不需要使用参数, 也可以只使用 `$B`, 例如 `BATCMD LEVEL $B`, 这种情况下可以不设置 `BATARGS`
