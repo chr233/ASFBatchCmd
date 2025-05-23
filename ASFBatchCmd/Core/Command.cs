@@ -30,7 +30,7 @@ internal static class Command
 
         var range = await FileManager.GetBatchRange().ConfigureAwait(false);
 
-        return FormatStaticResponse("修改执行范围为 -> {0} 个机器人", range.Count);
+        return FormatStaticResponse("修改执行范围为 {0} 个机器人", range.Count);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ internal static class Command
 
         var range = await FileManager.GetBatchArguments().ConfigureAwait(false);
 
-        return FormatStaticResponse("修改执行参数为 -> {0} 条", range.Count);
+        return FormatStaticResponse("修改执行参数为 {0} 条", range.Count);
     }
 
     /// <summary>
@@ -96,45 +96,57 @@ internal static class Command
             return FormatStaticResponse("没有设置执行范围, 使用命令 BATRANGE 设置, 或者编辑文件 {0}", FileManager.BotRangePath);
         }
 
-        if (args.Count == 0)
+        var hasArgs = message.Contains("$a", StringComparison.InvariantCultureIgnoreCase);
+
+        if (args.Count == 0 && hasArgs)
         {
             return FormatStaticResponse("没有设置执行参数, 使用命令 BATARGS 设置, 或者编辑文件 {0}", FileManager.ArgumentPath);
         }
 
-        if (randomArgs)
-        {
-            args = [.. args.OrderBy(static _ => Random.Shared.Next())];
-        }
-
         List<string> commands = [];
-        int i = 0;
-        foreach (var bot in bots)
+
+        if (hasArgs)
         {
-            var arg = args[i++];
-
-            var cmd = message
-                .Replace("$B", bot)
-                .Replace("$b", bot)
-                .Replace("$A", arg)
-                .Replace("$a", arg);
-
-            commands.Add(cmd);
-
-            if (i >= args.Count)
+            if (randomArgs)
             {
-                if (reuseArgs)
-                {
-                    i = 0;
+                args = [.. args.OrderBy(static _ => Random.Shared.Next())];
+            }
 
-                    if (randomArgs)
+            int i = 0;
+            foreach (var bot in bots)
+            {
+                var arg = args[i++];
+
+                var cmd = message
+                    .Replace("$B", bot, StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("$A", arg, StringComparison.InvariantCultureIgnoreCase);
+
+                commands.Add(cmd);
+
+                if (i >= args.Count)
+                {
+                    if (reuseArgs)
                     {
-                        args = [.. args.OrderBy(static _ => Random.Shared.Next())];
+                        i = 0;
+
+                        if (randomArgs)
+                        {
+                            args = [.. args.OrderBy(static _ => Random.Shared.Next())];
+                        }
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
-                else
-                {
-                    break;
-                }
+            }
+        }
+        else
+        {
+            foreach (var bot in bots)
+            {
+                var cmd = message.Replace("$B", bot, StringComparison.InvariantCultureIgnoreCase);
+                commands.Add(cmd);
             }
         }
 
