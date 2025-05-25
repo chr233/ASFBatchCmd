@@ -66,12 +66,12 @@ internal static class FileManager
 
         try
         {
-            using var stream = new FileStream(BotRangePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using var reader = new StreamReader(stream, Encoding.UTF8);
+            using var reader = new StreamReader(BotRangePath, Encoding.UTF8);
 
             while (!reader.EndOfStream)
             {
                 var line = await reader.ReadLineAsync().ConfigureAwait(false);
+                ASFLogger.LogGenericInfo("4");
 
                 if (!string.IsNullOrWhiteSpace(line))
                 {
@@ -136,8 +136,7 @@ internal static class FileManager
 
         try
         {
-            using var stream = new FileStream(ArgumentPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using var reader = new StreamReader(stream, Encoding.UTF8);
+            using var reader = new StreamReader(ArgumentPath, Encoding.UTF8);
 
             while (!reader.EndOfStream)
             {
