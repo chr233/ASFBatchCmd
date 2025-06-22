@@ -71,7 +71,6 @@ internal static class FileManager
             while (!reader.EndOfStream)
             {
                 var line = await reader.ReadLineAsync().ConfigureAwait(false);
-                ASFLogger.LogGenericInfo("4");
 
                 if (!string.IsNullOrWhiteSpace(line))
                 {
@@ -235,9 +234,31 @@ internal static class FileManager
                     break;
                 }
 
+                var isOffline = !bot.IsConnectedAndLoggedOn;
+
+                if (isOffline)
+                {
+                    bot.Actions.Start();
+
+                    int tries = 5;
+                    while (tries-- > 0)
+                    {
+                        await Task.Delay(2000).ConfigureAwait(false);
+                        if (bot.IsConnectedAndLoggedOn)
+                        {
+                            break;
+                        }
+                    }
+                }
+
                 await WriteLog(writer, string.Format("{0} > {1}", i, command)).ConfigureAwait(false);
                 var result = await bot.Commands.Response(EAccess.Owner, command, 0).ConfigureAwait(false);
                 await WriteLog(writer, string.Format("{0} < {1}", i++, result)).ConfigureAwait(false);
+
+                if (isOffline)
+                {
+                    await bot.Actions.Stop().ConfigureAwait(false);
+                }
 
                 if (Config.ExecuteDelay > 0)
                 {
